@@ -3,6 +3,13 @@ class BookInfo{
     constructor(title, author){
      this.title=title;
      this.author=author;
+    } 
+    
+    get getTitulo(){
+        return this.title;
+    }
+    get getAuthor(){
+        return this.author;
     }
     completeName(){
         return `${this.title}, ${this.author.toUpperCase()}`
@@ -13,12 +20,7 @@ class BookInfo{
     mostrarDatosEnAlert(){
         alert(this.completeName());
     }
-    getTitulo(){
-        return this.title;
-    }
-    getAuthor(){
-        return this.author;
-    }
+   
     mostrarDatos(value){
         switch(value){
             case "alert":
@@ -37,5 +39,4 @@ let newBook= new BookInfo ("Angeles y Demonios","Dan Brown");
 let newBook2= new BookInfo ('Fuego y Sangre', 'George R. R. Martin');
 
 let tituloDelNuevoLibro = newBook2.getTitulo();
-
 newBook.mostrarDatos("console");

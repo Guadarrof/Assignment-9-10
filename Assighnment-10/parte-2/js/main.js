@@ -1,30 +1,46 @@
 
 class BookInfo{
-    constructor(title, author, precio, isbn, paginas, idioma, foto, sinopsis){
+    constructor(title, author, price, isbn, pages, language, photo, synopsis){
      this.title=title;
      this.author=author;
-     this.precio=precio;
+     this.price=price;
      this.isbn=isbn;
-     this.paginas=paginas;
-     this.idioma=idioma;
-     this.foto=foto;
-     this.sinopsis=sinopsis;
+     this.pages=pages;
+     this.language=language;
+     this.photo=photo;
+     this.synopsis=synopsis;
     }
+
+    set setTitle(title){this.title=title;}
+    set setAuthor(author){this.author=author;}
+    set setPrice(price){this.price=price;}
+    set setIsbn(isbn){this.isbn=isbn;}
+    set setPages(pages){this.pages=pages;}
+    set setLanguaje(language){this.language=language;}
+    set setPhoto(photo){this.photo=photo;}
+    set setSynopsis(synopsis){this.synopsis=synopsis;}
+
+    get getTitle(){return this.title;}
+    get getAuthor(){return this.author;}
+    get getPrice(){return this.price;}
+    get getIsbn(){return this.isbn;}
+    get getPages(){return this.pages;}
+    get getLanguage(){return this.language;}
+    get getPhoto(){return this.photo;}
+    get getSynopsis(){return this.synopsis;}
+
     completeName(){
         return `${this.title}, ${this.author.toUpperCase()}`
     }
+
     mostrarDatosEnConsola(){
         console.log(this.completeName());
     }
+
     mostrarDatosEnAlert(){
         alert(this.completeName());
     }
-    getTitulo(){
-        return this.title;
-    }
-    getAuthor(){
-        return this.author;
-    }
+
     mostrarDatos(value){
         switch(value){
             case "alert":
@@ -36,10 +52,54 @@ class BookInfo{
             break;
         }
     }
+
     getHtmlArticle(){
-        let article=document.getElementsByTagName("article");
-        let articleContent=article[0].innerHTML;
-        
+        return `
+        <article>
+            <h2>${this.getTitle}</h2>
+            <h3><span class="de">de</span> ${this.getAuthor} </h3>
+            <div class="informacion">
+                <a href="./img/${this.getPhoto}" title="Presioná para ver la imagen en tamaño grande" target="_blank">
+                    <img src="./img/${this.getPhoto}" alt="Portada de ${this.getTitle}">
+                </a>
+                <p>
+                    <span>Precio:</span>
+                    <span>${this.getPrice}</span>
+                </p>
+                <p>
+                    <span title="International Standard Book Number">ISBN:</span>
+                    <span>${this.getIsbn}</span>
+                </p>
+                <p>
+                    <span>Páginas:</span>
+                    <span>${this.getPages}</span>
+                </p>
+                <p>
+                    <span>Idioma:</span>
+                    <span>${this.getLanguage}</span>
+                </p>
+            </div>
+            <div class="sinopsis">
+                <p>${this.getSynopsis}</p>
+            </div>
+            <div class="gradiente-blanco"></div>
+        </article>`
+    }
+}
+
+class Bookshop{
+    constructor(arrayBooks){
+        this.books=new Array();
+        for (let index = 0; index < arrayBooks.length; index++) {
+            this.books.push(arrayBooks[index]);   
+        }    
+    }
+
+    loadBooks(idDestino){
+        let section=document.getElementById(idDestino);
+        for (let index = 0; index < this.books.length; index++) {
+            section.innerHTML=section.innerHTML.concat(this.books[index].getHtmlArticle());            
+        }
     }
 }
 
@@ -99,3 +159,25 @@ let libro5 = new BookInfo(
     '677978.jpg',
     'Maru cocina junto a sus hijos y amigos sus mejores recetas del día a día. Este manual con recetario ayudará a los jóvenes, a los recién mudados y a todo aquel que se inicia en la cocina a preparar los platos más deliciosos: bebidas, entradas, principales, panes, postres y tortas. Todo con los eximios sabores y la simplicidad de Maru Botana.'
 );
+
+
+console.log(libro1.getPhoto);
+console.log(libro1.getPrice);
+var elemLibrosContainer=document.getElementById("libros");
+let htmlNuevosLibros = libro1.getHtmlArticle()
+                       + libro2.getHtmlArticle()
+                       + libro3.getHtmlArticle()
+                       + libro4.getHtmlArticle()
+  elemLibrosContainer.innerHTML += htmlNuevosLibros
+
+
+libro5.mostrarDatos("console");
+
+
+let idBooks = 'libros';
+let books = [libro1, libro2, libro3, libro4];
+let booksShop = new Bookshop(books);
+booksShop.loadBooks(idBooks);
+
+
+(new Bookshop([libro1, libro2, libro3, libro4])).loadBooks('libros');
